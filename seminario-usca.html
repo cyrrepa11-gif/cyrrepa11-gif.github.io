@@ -1,0 +1,2192 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>II Seminario de Actualización Quirúrgica - USCA</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+
+    <!-- CDN Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #1a3a5c;
+            --secondary: #c9a84c;
+            --accent: #e8f4fd;
+            --background: #f8f9fa;
+            --text: #2c3e50;
+            --light-gray: #ecf0f1;
+            --success: #27ae60;
+            --danger: #e74c3c;
+            --warning: #f39c12;
+        }
+
+        html, body {
+            font-family: 'Lato', sans-serif;
+            color: var(--text);
+            background-color: var(--background);
+            scroll-behavior: smooth;
+        }
+
+        /* Header & Navigation */
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, #0f2236 100%);
+            color: white;
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        nav {
+            display: flex;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--secondary);
+        }
+
+        nav a.active {
+            color: var(--secondary);
+            border-bottom: 2px solid var(--secondary);
+            padding-bottom: 0.5rem;
+        }
+
+        .admin-badge {
+            background: var(--secondary);
+            color: var(--primary);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        .logout-btn {
+            background: var(--danger);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: background 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: #c0392b;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Views */
+        .view {
+            display: none;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        .view.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* VISTA 1: LANDING */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, #0f2236 100%);
+            color: white;
+            padding: 5rem 2rem;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 3rem;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero .subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent);
+        }
+
+        .hero .info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .hero .info-item {
+            background: rgba(255,255,255,0.1);
+            padding: 1.5rem;
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+        }
+
+        .hero .info-item strong {
+            color: var(--secondary);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: var(--secondary);
+            color: var(--primary);
+            text-decoration: none;
+            border-radius: 5px;
+            cursor: pointer;
+            border: none;
+            font-weight: 700;
+            transition: all 0.3s;
+            font-size: 1rem;
+        }
+
+        .btn:hover {
+            background: #b8952d;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #0f2236;
+        }
+
+        .btn-small {
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #c0392b;
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #229954;
+        }
+
+        /* Sections */
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin: 3rem 0 2rem 0;
+            border-bottom: 3px solid var(--secondary);
+            padding-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--text);
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+
+        /* Programa/Agenda */
+        .agenda-container {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .agenda-item {
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            border-bottom: 1px solid var(--light-gray);
+            transition: background 0.3s;
+        }
+
+        .agenda-item:last-child {
+            border-bottom: none;
+        }
+
+        .agenda-item:hover {
+            background: var(--accent);
+        }
+
+        .time {
+            background: linear-gradient(135deg, var(--primary), #0f2236);
+            color: white;
+            padding: 1.5rem;
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .agenda-content {
+            padding: 1.5rem;
+        }
+
+        .agenda-topic {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .agenda-speaker {
+            color: var(--secondary);
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+        }
+
+        .agenda-institution {
+            color: #7f8c8d;
+            font-size: 0.95rem;
+        }
+
+        /* VISTA 2: INSCRIPCIÓN */
+        .form-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-step {
+            display: none;
+        }
+
+        .form-step.active {
+            display: block;
+            animation: slideIn 0.3s ease-in;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .step-indicator {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .step-indicator::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--light-gray);
+            z-index: -1;
+        }
+
+        .step-num {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--light-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: var(--text);
+            z-index: 1;
+        }
+
+        .step-num.active {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .step-num.completed {
+            background: var(--success);
+            color: white;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid var(--light-gray);
+            border-radius: 5px;
+            font-family: 'Lato', sans-serif;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.1);
+        }
+
+        input.error, textarea.error {
+            border-color: var(--danger);
+        }
+
+        .error-message {
+            color: var(--danger);
+            font-size: 0.9rem;
+            margin-top: 0.3rem;
+        }
+
+        .success-message {
+            color: var(--success);
+            font-size: 0.9rem;
+            margin-top: 0.3rem;
+        }
+
+        .file-input-wrapper {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .file-input-label {
+            display: block;
+            padding: 2rem;
+            border: 2px dashed var(--secondary);
+            border-radius: 8px;
+            text-align: center;
+            background: var(--accent);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .file-input-label:hover {
+            background: rgba(201, 168, 76, 0.2);
+            border-color: var(--primary);
+        }
+
+        .file-input-label.has-file {
+            border-color: var(--success);
+            background: rgba(39, 174, 96, 0.1);
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        .image-preview {
+            margin-top: 1rem;
+            text-align: center;
+        }
+
+        .image-preview img {
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .form-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .form-buttons button {
+            flex: 1;
+            padding: 1rem;
+            font-size: 1rem;
+            font-weight: 700;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .form-buttons .btn-back {
+            background: var(--light-gray);
+            color: var(--text);
+        }
+
+        .form-buttons .btn-back:hover {
+            background: #d5dbdb;
+        }
+
+        .form-buttons .btn-next {
+            background: var(--secondary);
+            color: var(--primary);
+        }
+
+        .form-buttons .btn-submit {
+            background: var(--success);
+            color: white;
+        }
+
+        /* VISTA 3: CARNET */
+        .carnet-container {
+            display: flex;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+
+        .carnet {
+            width: 100%;
+            max-width: 450px;
+            background: linear-gradient(135deg, var(--primary) 0%, #0f2236 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border: 2px solid var(--secondary);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .carnet::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--secondary), transparent, var(--secondary));
+        }
+
+        .carnet-header {
+            text-align: center;
+            border-bottom: 2px solid var(--secondary);
+            padding-bottom: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .carnet-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            color: var(--secondary);
+            margin-bottom: 0.3rem;
+        }
+
+        .carnet-subtitle {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .carnet-body {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .carnet-avatar {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 1rem;
+            background: var(--accent);
+            border-radius: 50%;
+            border: 3px solid var(--secondary);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .carnet-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .carnet-avatar-default {
+            font-size: 3rem;
+        }
+
+        .carnet-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--secondary);
+        }
+
+        .carnet-info {
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            opacity: 0.9;
+        }
+
+        .carnet-info strong {
+            color: var(--secondary);
+            display: block;
+            font-weight: 700;
+        }
+
+        .carnet-qr {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        .carnet-qr canvas {
+            display: block;
+            max-width: 150px;
+        }
+
+        .carnet-id {
+            font-size: 0.8rem;
+            color: var(--accent);
+            word-break: break-all;
+            font-family: monospace;
+        }
+
+        .carnet-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .carnet-actions button {
+            flex: 1;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.3s;
+        }
+
+        .carnet-actions .btn-print {
+            background: var(--secondary);
+            color: var(--primary);
+        }
+
+        .carnet-actions .btn-print:hover {
+            background: #b8952d;
+        }
+
+        .carnet-actions .btn-download {
+            background: var(--success);
+            color: white;
+        }
+
+        .carnet-actions .btn-download:hover {
+            background: #229954;
+        }
+
+        /* VISTA 4: ADMIN */
+        .login-form {
+            max-width: 400px;
+            margin: 3rem auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .login-form h2 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .login-form button {
+            width: 100%;
+            padding: 1rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: background 0.3s;
+        }
+
+        .login-form button:hover {
+            background: #0f2236;
+        }
+
+        .admin-dashboard {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .admin-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid var(--light-gray);
+        }
+
+        .admin-tab {
+            padding: 1rem 1.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-weight: 700;
+            color: var(--text);
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .admin-tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--secondary);
+        }
+
+        .admin-content {
+            display: none;
+        }
+
+        .admin-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, var(--primary), #0f2236);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .search-filter {
+            margin-bottom: 1.5rem;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .search-filter input {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .search-filter button {
+            padding: 0.8rem 1.5rem;
+            background: var(--secondary);
+            color: var(--primary);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: background 0.3s;
+        }
+
+        .search-filter button:hover {
+            background: #b8952d;
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: linear-gradient(135deg, var(--primary), #0f2236);
+            color: white;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 700;
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--light-gray);
+            font-size: 0.95rem;
+        }
+
+        tr:hover {
+            background: var(--accent);
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        .status-presente {
+            background: rgba(39, 174, 96, 0.2);
+            color: var(--success);
+        }
+
+        .status-ausente {
+            background: rgba(236, 240, 241, 0.8);
+            color: var(--text);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .action-buttons button {
+            padding: 0.4rem 0.8rem;
+            font-size: 0.85rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.3s;
+        }
+
+        .toggle-presence {
+            background: var(--light-gray);
+            color: var(--text);
+        }
+
+        .toggle-presence.present {
+            background: var(--success);
+            color: white;
+        }
+
+        .view-proof {
+            background: var(--secondary);
+            color: var(--primary);
+        }
+
+        .view-proof:hover {
+            background: #b8952d;
+        }
+
+        .scanner-container {
+            background: var(--accent);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+        }
+
+        #qr-reader {
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .scanner-result {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            text-align: center;
+            display: none;
+        }
+
+        .scanner-result.active {
+            display: block;
+            animation: slideIn 0.3s ease-in;
+        }
+
+        .result-success {
+            background: rgba(39, 174, 96, 0.1);
+            border: 2px solid var(--success);
+        }
+
+        .result-warning {
+            background: rgba(243, 156, 18, 0.1);
+            border: 2px solid var(--warning);
+        }
+
+        .result-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin: 1rem 0;
+            font-weight: 700;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--light-gray);
+        }
+
+        .modal-header h2 {
+            color: var(--primary);
+            font-family: 'Playfair Display', serif;
+            margin: 0;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text);
+        }
+
+        .modal-close:hover {
+            color: var(--danger);
+        }
+
+        .proof-image {
+            width: 100%;
+            max-height: 400px;
+            object-fit: contain;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        /* VISTA 5: CONFIRMACIÓN */
+        .confirmation-card {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            max-width: 600px;
+            margin: 2rem auto;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-left: 5px solid var(--secondary);
+        }
+
+        .confirmation-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--light-gray);
+        }
+
+        .confirmation-header h2 {
+            font-family: 'Playfair Display', serif;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .confirmation-info {
+            display: grid;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .info-label {
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .info-value {
+            color: var(--text);
+        }
+
+        .presence-indicator {
+            text-align: center;
+            padding: 1.5rem;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .presence-yes {
+            background: rgba(39, 174, 96, 0.1);
+            color: var(--success);
+            border: 2px solid var(--success);
+        }
+
+        .presence-no {
+            background: rgba(236, 240, 241, 0.8);
+            color: var(--text);
+            border: 2px solid var(--light-gray);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero .info {
+                grid-template-columns: 1fr;
+            }
+
+            header {
+                padding: 1rem;
+            }
+
+            .header-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            nav {
+                flex-direction: column;
+                gap: 0.5rem;
+                width: 100%;
+            }
+
+            nav a {
+                display: block;
+                padding: 0.5rem;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .agenda-item {
+                grid-template-columns: 100px 1fr;
+            }
+
+            .time {
+                font-size: 0.9rem;
+                padding: 1rem;
+            }
+
+            .agenda-content {
+                padding: 1rem;
+            }
+
+            .agenda-topic {
+                font-size: 1.1rem;
+            }
+
+            .form-container {
+                padding: 1.5rem;
+            }
+
+            .carnet {
+                padding: 1.5rem;
+                max-width: 100%;
+            }
+
+            .carnet-name {
+                font-size: 1.3rem;
+            }
+
+            .search-filter {
+                flex-direction: column;
+            }
+
+            .search-filter input {
+                min-width: 100%;
+            }
+
+            .table-container {
+                font-size: 0.85rem;
+            }
+
+            th, td {
+                padding: 0.5rem;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .action-buttons button {
+                width: 100%;
+            }
+
+            .modal-content {
+                margin: 1rem;
+                padding: 1.5rem;
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+
+            .carnet, .carnet * {
+                visibility: visible;
+            }
+
+            .carnet {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                box-shadow: none;
+            }
+
+            .carnet-actions {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header & Navigation -->
+    <header>
+        <div class="header-container">
+            <div class="logo-text">🏥 USCA Seminario Quirúrgico</div>
+            <nav id="nav">
+                <a href="#inicio" class="nav-link active">Inicio</a>
+                <a href="#inscripcion" class="nav-link">Inscripción</a>
+                <a href="#admin" class="nav-link">Admin</a>
+            </nav>
+            <div id="admin-indicator"></div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- VISTA 1: LANDING / INICIO -->
+        <section id="inicio" class="view active">
+            <div class="hero">
+                <h1>II Seminario de Actualización Quirúrgica</h1>
+                <p class="subtitle">I Encuentro de Egresados USCA</p>
+                <div class="info">
+                    <div class="info-item">
+                        <strong>📅 Fecha</strong>
+                        <span>28 de Mayo de 2026</span>
+                    </div>
+                    <div class="info-item">
+                        <strong>🕐 Horario</strong>
+                        <span>8:00 AM - 5:00 PM</span>
+                    </div>
+                    <div class="info-item">
+                        <strong>📍 Lugar</strong>
+                        <span>Auditorio Central USCA</span>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <h2 class="section-title">Sobre el Evento</h2>
+                <p class="section-subtitle">
+                    Jornada académica de excelencia dedicada a médicos y cirujanos interesados en los últimos
+                    avances en técnicas quirúrgicas, procedimientos innovadores y actualización clínica.
+                    Contaremos con distinguidos ponentes de instituciones de salud líderes, compartiendo experiencias
+                    y facilitando el encuentro entre egresados de nuestra universidad.
+                </p>
+
+                <h2 class="section-title">Programa / Agenda</h2>
+
+                <div class="agenda-container">
+                    <div class="agenda-item">
+                        <div class="time">08:00 AM</div>
+                        <div class="agenda-content">
+                            <div class="agenda-topic">Acreditación y Recepción</div>
+                            <div class="agenda-institution">Auditorio de Entrada</div>
+                        </div>
+                    </div>
+
+                    <div class="agenda-item">
+                        <div class="time">08:45 AM</div>
+                        <div class="agenda-content">
+                            <div class="agenda-topic">Innovaciones en Cirugía Laparoscópica</div>
+                            <div class="agenda-speaker">Dr. Carlos Mendoza Ruiz</div>
+                            <div class="agenda-institution">Especialista en Cirugía General · Hospital Central</div>
+                        </div>
+                    </div>
+
+                    <div class="agenda-item">
+                        <div class="time">09:45 AM</div>
+                        <div class="agenda-content">
+                            <div class="agenda-topic">Manejo Quirúrgico de Trauma Abdominal</div>
+                            <div class="agenda-speaker">Dra. María González López</div>
+                            <div class="agenda-institution">Cirujana Traumatóloga · Instituto de Trauma</div>
+                        </div>
+                    </div>
+
+                    <div class="agenda-item">
+                        <div class="time">10:45 AM</div>
+                        <div class="agenda-content">
+                            <div class="agenda-topic">Receso y Café</div>
+                            <div class="agenda-institution">Lobby Principal</div>
+                        </div>
+                    </div>
+
+                    <div class="agenda-item">
+                        <div class="time">11:00 AM</div>
+                        <div class="agenda-content">
+                            <div class="agenda-topic">Avances en Cirugía Robótica y Endoscópica</div>
+                            <div class="agenda-speaker">Dr. Roberto Fernández Silva</div>
+                            <div class="agenda-institution">Cirujano Robótico · Clínica San Rafael</div>
+                        </div>
+                    </div>
+
+                    <div class="agenda-item">
+                        <div class="time">12:00 PM</div>
+                        <div class="agenda-content">
+                            <div class="agenda-topic">Cirugía Plástica y Reconstrucción: Casos Clínicos</div>
+                            <div class="agenda-speaker">Dra. Sofía Ramírez Ortiz</div>
+                            <div class="agenda-institution">Cirujana Plástica · Centro Estético Quirúrgico</div>
+                        </div>
+                    </div>
+
+                    <div class="agenda-item">
+                        <div class="time">01:00 PM</div>
+                        <div class="agenda-content">
+                            <div class="agenda-topic">Almuerzo de Networking</div>
+                            <div class="agenda-institution">Comedor VIP</div>
+                        </div>
+                    </div>
+
+                    <div class="agenda-item">
+                        <div class="time">02:30 PM</div>
+                        <div class="agenda-content">
+                            <div class="agenda-topic">Nuevas Técnicas en Cirugía Cardiovascular</div>
+                            <div class="agenda-speaker">Dr. Javier Morales Delgado</div>
+                            <div class="agenda-institution">Cirujano Cardiovascular · Hospital Universitario</div>
+                        </div>
+                    </div>
+
+                    <div class="agenda-item">
+                        <div class="time">03:30 PM</div>
+                        <div class="agenda-content">
+                            <div class="agenda-topic">Panel de Discusión: Desafíos de la Cirugía Moderna</div>
+                            <div class="agenda-speaker">Moderador: Dr. Luis Vélez Montoya</div>
+                            <div class="agenda-institution">Participación de todos los ponentes</div>
+                        </div>
+                    </div>
+
+                    <div class="agenda-item">
+                        <div class="time">04:30 PM</div>
+                        <div class="agenda-content">
+                            <div class="agenda-topic">Encuentro de Egresados USCA</div>
+                            <div class="agenda-institution">Zona de Recepción · Bebidas y Refrigerios</div>
+                        </div>
+                    </div>
+
+                    <div class="agenda-item">
+                        <div class="time">05:00 PM</div>
+                        <div class="agenda-content">
+                            <div class="agenda-topic">Clausura y Reconocimientos</div>
+                            <div class="agenda-institution">Ceremonia de Cierre</div>
+                        </div>
+                    </div>
+                </div>
+
+                <h2 class="section-title">Inscripción</h2>
+                <p class="section-subtitle">
+                    Cupo limitado. Registre sus datos y adjunte el comprobante de pago para obtener su carnet digital.
+                </p>
+                <div style="text-align: center;">
+                    <button class="btn" onclick="navigateTo('inscripcion')">Inscribirme Ahora</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- VISTA 2: INSCRIPCIÓN -->
+        <section id="inscripcion" class="view">
+            <h2 class="section-title">Formulario de Inscripción</h2>
+
+            <div class="form-container">
+                <!-- Step Indicator -->
+                <div class="step-indicator">
+                    <div class="step-num active" id="step1-indicator">1</div>
+                    <div class="step-num" id="step2-indicator">2</div>
+                </div>
+
+                <!-- STEP 1: COMPROBANTE -->
+                <div class="form-step active" id="step1">
+                    <h3 style="color: var(--primary); margin-bottom: 1.5rem; text-align: center;">Paso 1: Comprobante de Pago</h3>
+
+                    <div class="form-group">
+                        <label>Adjuntar Comprobante de Pago</label>
+                        <div class="file-input-wrapper">
+                            <label class="file-input-label" id="file-label" for="file-input">
+                                <div style="font-size: 2rem; margin-bottom: 0.5rem;">📎</div>
+                                <div>Haz clic o arrastra la imagen aquí</div>
+                                <div style="font-size: 0.85rem; margin-top: 0.5rem; opacity: 0.7;">
+                                    Formatos: JPG, PNG (máx 5MB)
+                                </div>
+                            </label>
+                            <input type="file" id="file-input" accept="image/jpeg,image/png">
+                        </div>
+                        <div id="image-preview" class="image-preview"></div>
+                        <div id="file-error" class="error-message"></div>
+                    </div>
+
+                    <div class="form-buttons">
+                        <button class="btn-back" onclick="navigateTo('inicio')">Volver</button>
+                        <button class="btn btn-next" onclick="goToStep2()">Siguiente</button>
+                    </div>
+                </div>
+
+                <!-- STEP 2: DATOS PERSONALES -->
+                <div class="form-step" id="step2">
+                    <h3 style="color: var(--primary); margin-bottom: 1.5rem; text-align: center;">Paso 2: Datos Personales</h3>
+
+                    <div class="form-group">
+                        <label for="nombre">Nombre</label>
+                        <input type="text" id="nombre" placeholder="Tu nombre">
+                        <div id="nombre-error" class="error-message"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="apellido">Apellido</label>
+                        <input type="text" id="apellido" placeholder="Tu apellido">
+                        <div id="apellido-error" class="error-message"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ci">Cédula de Identidad (C.I.)</label>
+                        <input type="text" id="ci" placeholder="Ej: 12345678">
+                        <div id="ci-error" class="error-message"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="direccion">Dirección</label>
+                        <input type="text" id="direccion" placeholder="Calle, número, ciudad">
+                        <div id="direccion-error" class="error-message"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="institucion">Institución de Procedencia</label>
+                        <input type="text" id="institucion" placeholder="Hospital, Universidad, etc.">
+                        <div id="institucion-error" class="error-message"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="correo">Correo Electrónico</label>
+                        <input type="email" id="correo" placeholder="tu@email.com">
+                        <div id="correo-error" class="error-message"></div>
+                    </div>
+
+                    <div class="form-buttons">
+                        <button class="btn-back" onclick="goBackToStep1()">Atrás</button>
+                        <button class="btn btn-submit" onclick="submitInscripcion()">Inscribirme</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- VISTA 3: CARNET DIGITAL -->
+        <section id="carnet" class="view">
+            <h2 class="section-title">Tu Carnet Digital</h2>
+
+            <div id="carnet-content">
+                <div class="carnet-container">
+                    <div class="carnet" id="carnet-print">
+                        <div class="carnet-header">
+                            <div class="carnet-title">🏥 SEMINARIO QUIRÚRGICO</div>
+                            <div class="carnet-subtitle">USCA 2026</div>
+                        </div>
+
+                        <div class="carnet-body">
+                            <div class="carnet-avatar" id="carnet-avatar">
+                                <span class="carnet-avatar-default">👨‍⚕️</span>
+                            </div>
+
+                            <div class="carnet-name" id="carnet-name">Nombre Completo</div>
+
+                            <div class="carnet-info">
+                                <strong>C.I.:</strong>
+                                <span id="carnet-ci">000000</span>
+                            </div>
+
+                            <div class="carnet-info">
+                                <strong>Institución:</strong>
+                                <span id="carnet-institucion">USCA</span>
+                            </div>
+
+                            <div class="carnet-info">
+                                <strong>Correo:</strong>
+                                <span id="carnet-correo">correo@email.com</span>
+                            </div>
+
+                            <div class="carnet-qr" id="qr-container"></div>
+
+                            <div class="carnet-id">
+                                <strong>ID:</strong> <span id="carnet-id">000000</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="carnet-actions" style="max-width: 450px; margin: 2rem auto;">
+                    <button class="btn-print" onclick="printCarnet()">🖨️ Imprimir</button>
+                    <button class="btn-download" onclick="downloadCarnet()">⬇️ Descargar</button>
+                    <button class="btn" onclick="navigateTo('inicio')">Volver al Inicio</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- VISTA 4: ADMIN -->
+        <section id="admin" class="view">
+            <h2 class="section-title">Panel de Administración</h2>
+
+            <!-- Login Form -->
+            <div id="login-section">
+                <div class="login-form">
+                    <h2>Acceso Administrativo</h2>
+                    <div class="form-group">
+                        <label for="admin-user">Usuario</label>
+                        <input type="text" id="admin-user" placeholder="admin">
+                    </div>
+                    <div class="form-group">
+                        <label for="admin-pass">Contraseña</label>
+                        <input type="password" id="admin-pass" placeholder="••••••••">
+                    </div>
+                    <div id="login-error" class="error-message" style="margin-bottom: 1rem;"></div>
+                    <button onclick="loginAdmin()">Ingresar</button>
+                </div>
+            </div>
+
+            <!-- Admin Dashboard -->
+            <div id="admin-section" style="display: none;">
+                <div class="admin-dashboard">
+                    <!-- Stats -->
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-number" id="stat-total">0</div>
+                            <div class="stat-label">Inscritos Totales</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="stat-presentes">0</div>
+                            <div class="stat-label">Presentes</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="stat-ausentes">0</div>
+                            <div class="stat-label">Ausentes</div>
+                        </div>
+                    </div>
+
+                    <!-- Tabs -->
+                    <div class="admin-tabs">
+                        <button class="admin-tab active" onclick="switchAdminTab(event, 'lista')">📋 Lista de Inscritos</button>
+                        <button class="admin-tab" onclick="switchAdminTab(event, 'escaner')">📱 Escáner QR</button>
+                    </div>
+
+                    <!-- Tab: Lista de Inscritos -->
+                    <div id="tab-lista" class="admin-content active">
+                        <div class="search-filter">
+                            <input type="text" id="search-filter" placeholder="Buscar por nombre o C.I...">
+                            <button onclick="filterInscritos()">🔍 Buscar</button>
+                            <button onclick="exportList()" style="background: var(--success);">📥 Exportar</button>
+                        </div>
+
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Nombre</th>
+                                        <th>C.I.</th>
+                                        <th>Institución</th>
+                                        <th>Correo</th>
+                                        <th>Presencia</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="inscritos-table">
+                                    <tr>
+                                        <td colspan="7" style="text-align: center; color: #7f8c8d;">Cargando...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Tab: Escáner QR -->
+                    <div id="tab-escaner" class="admin-content">
+                        <div class="scanner-container">
+                            <div style="text-align: center; margin-bottom: 1rem;">
+                                <button class="btn btn-primary" onclick="startScanner()">📸 Iniciar Escáner</button>
+                                <button class="btn btn-danger btn-small" onclick="stopScanner()" id="stop-scanner-btn" style="display: none;">Detener</button>
+                            </div>
+                            <div id="qr-reader"></div>
+                        </div>
+
+                        <div class="scanner-result" id="scanner-result">
+                            <div class="result-name" id="result-name">Resultado</div>
+                            <div class="result-info" id="result-info"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- VISTA 5: CONFIRMACIÓN POR QR -->
+        <section id="confirmacion" class="view">
+            <h2 class="section-title">Confirmación de Asistencia</h2>
+            <div id="confirmation-content">
+                <div class="confirmation-card">
+                    <div style="text-align: center; color: #7f8c8d;">
+                        Cargando información...
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Modals -->
+    <div id="proof-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Comprobante de Pago</h2>
+                <button class="modal-close" onclick="closeModal('proof-modal')">✕</button>
+            </div>
+            <img id="proof-image" class="proof-image" src="" alt="Comprobante">
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // ==================== STATE & CONFIG ====================
+        const APP_STATE = {
+            currentPage: 'inicio',
+            isLoggedIn: false,
+            uploadedImage: null,
+            uploadedImageBase64: null,
+            currentInscritoId: null,
+            qrScanner: null,
+            isScanning: false,
+            allInscritos: []
+        };
+
+        const ADMIN_CREDENTIALS = {
+            user: 'admin',
+            password: 'usca2025'
+        };
+
+        // ==================== NAVIGATION ====================
+        function navigateTo(page) {
+            const currentView = document.querySelector('.view.active');
+            if (currentView) currentView.classList.remove('active');
+
+            const newView = document.getElementById(page);
+            if (newView) newView.classList.add('active');
+
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${page}`) {
+                    link.classList.add('active');
+                }
+            });
+
+            APP_STATE.currentPage = page;
+            window.history.pushState(null, '', `#${page}`);
+
+            if (page === 'inscripcion') {
+                resetForm();
+            } else if (page === 'admin') {
+                if (!APP_STATE.isLoggedIn) {
+                    document.getElementById('login-section').style.display = 'block';
+                    document.getElementById('admin-section').style.display = 'none';
+                } else {
+                    showAdminDashboard();
+                }
+            }
+        }
+
+        window.addEventListener('hashchange', () => {
+            const page = window.location.hash.slice(1) || 'inicio';
+            if (page.includes('confirmacion')) {
+                handleConfirmationPage();
+            } else {
+                navigateTo(page);
+            }
+        });
+
+        window.addEventListener('load', () => {
+            const page = window.location.hash.slice(1) || 'inicio';
+            if (page.includes('confirmacion')) {
+                handleConfirmationPage();
+            } else {
+                navigateTo(page);
+            }
+        });
+
+        // ==================== FILE UPLOAD ====================
+        const fileInput = document.getElementById('file-input');
+        const fileLabel = document.getElementById('file-label');
+
+        fileInput.addEventListener('change', handleFileUpload);
+
+        fileLabel.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            fileLabel.style.background = 'rgba(201, 168, 76, 0.3)';
+        });
+
+        fileLabel.addEventListener('dragleave', () => {
+            fileLabel.style.background = 'var(--accent)';
+        });
+
+        fileLabel.addEventListener('drop', (e) => {
+            e.preventDefault();
+            fileLabel.style.background = 'var(--accent)';
+            if (e.dataTransfer.files.length > 0) {
+                fileInput.files = e.dataTransfer.files;
+                handleFileUpload();
+            }
+        });
+
+        function handleFileUpload() {
+            const file = fileInput.files[0];
+            const errorDiv = document.getElementById('file-error');
+            errorDiv.textContent = '';
+
+            if (!file) return;
+
+            if (file.size > 5 * 1024 * 1024) {
+                errorDiv.textContent = 'El archivo debe ser menor a 5MB';
+                return;
+            }
+
+            if (!['image/jpeg', 'image/png'].includes(file.type)) {
+                errorDiv.textContent = 'Solo se aceptan imágenes JPG o PNG';
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                APP_STATE.uploadedImage = file;
+                APP_STATE.uploadedImageBase64 = e.target.result;
+
+                fileLabel.classList.add('has-file');
+                fileLabel.innerHTML = '✓ Comprobante Adjuntado';
+
+                const preview = document.getElementById('image-preview');
+                preview.innerHTML = `<img src="${e.target.result}" alt="Preview">`;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // ==================== FORM STEPS ====================
+        function goToStep2() {
+            if (!APP_STATE.uploadedImageBase64) {
+                document.getElementById('file-error').textContent = 'Debes adjuntar un comprobante de pago';
+                return;
+            }
+
+            document.getElementById('step1').classList.remove('active');
+            document.getElementById('step2').classList.add('active');
+
+            document.getElementById('step1-indicator').classList.remove('active');
+            document.getElementById('step1-indicator').classList.add('completed');
+            document.getElementById('step2-indicator').classList.add('active');
+        }
+
+        function goBackToStep1() {
+            document.getElementById('step2').classList.remove('active');
+            document.getElementById('step1').classList.add('active');
+
+            document.getElementById('step1-indicator').classList.add('active');
+            document.getElementById('step1-indicator').classList.remove('completed');
+            document.getElementById('step2-indicator').classList.remove('active');
+        }
+
+        // ==================== VALIDATION ====================
+        function validateEmail(email) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        }
+
+        function validateCI(ci) {
+            return /^\d{6,10}$/.test(ci.trim());
+        }
+
+        function validatePersonalData() {
+            const fields = {
+                nombre: document.getElementById('nombre'),
+                apellido: document.getElementById('apellido'),
+                ci: document.getElementById('ci'),
+                direccion: document.getElementById('direccion'),
+                institucion: document.getElementById('institucion'),
+                correo: document.getElementById('correo')
+            };
+
+            let isValid = true;
+
+            for (let [key, field] of Object.entries(fields)) {
+                const errorDiv = document.getElementById(`${key}-error`);
+                errorDiv.textContent = '';
+                field.classList.remove('error');
+
+                if (!field.value.trim()) {
+                    errorDiv.textContent = 'Este campo es requerido';
+                    field.classList.add('error');
+                    isValid = false;
+                } else if (key === 'ci' && !validateCI(field.value)) {
+                    errorDiv.textContent = 'C.I. debe contener solo números (6-10 dígitos)';
+                    field.classList.add('error');
+                    isValid = false;
+                } else if (key === 'correo' && !validateEmail(field.value)) {
+                    errorDiv.textContent = 'Correo electrónico no válido';
+                    field.classList.add('error');
+                    isValid = false;
+                }
+            }
+
+            return isValid;
+        }
+
+        // ==================== INSCRIPCIÓN ====================
+        function submitInscripcion() {
+            if (!validatePersonalData()) return;
+
+            const inscrito = {
+                id: crypto.randomUUID(),
+                nombre: document.getElementById('nombre').value.trim(),
+                apellido: document.getElementById('apellido').value.trim(),
+                ci: document.getElementById('ci').value.trim(),
+                direccion: document.getElementById('direccion').value.trim(),
+                institucion: document.getElementById('institucion').value.trim(),
+                correo: document.getElementById('correo').value.trim(),
+                comprobanteBase64: APP_STATE.uploadedImageBase64,
+                fechaInscripcion: new Date().toISOString(),
+                presente: false,
+                horaConfirmacion: ''
+            };
+
+            const inscritos = JSON.parse(localStorage.getItem('inscritos') || '[]');
+            inscritos.push(inscrito);
+            localStorage.setItem('inscritos', JSON.stringify(inscritos));
+
+            APP_STATE.currentInscritoId = inscrito.id;
+            showCarnet(inscrito);
+            navigateTo('carnet');
+        }
+
+        function resetForm() {
+            document.getElementById('file-input').value = '';
+            document.getElementById('image-preview').innerHTML = '';
+            const fileLabel = document.getElementById('file-label');
+            fileLabel.classList.remove('has-file');
+            fileLabel.innerHTML = `<div style="font-size: 2rem; margin-bottom: 0.5rem;">📎</div>
+                                    <div>Haz clic o arrastra la imagen aquí</div>
+                                    <div style="font-size: 0.85rem; margin-top: 0.5rem; opacity: 0.7;">
+                                        Formatos: JPG, PNG (máx 5MB)
+                                    </div>`;
+
+            ['nombre', 'apellido', 'ci', 'direccion', 'institucion', 'correo'].forEach(id => {
+                document.getElementById(id).value = '';
+                document.getElementById(`${id}-error`).textContent = '';
+                document.getElementById(id).classList.remove('error');
+            });
+
+            document.getElementById('step1').classList.add('active');
+            document.getElementById('step2').classList.remove('active');
+            document.getElementById('step1-indicator').classList.add('active');
+            document.getElementById('step1-indicator').classList.remove('completed');
+            document.getElementById('step2-indicator').classList.remove('active');
+
+            APP_STATE.uploadedImage = null;
+            APP_STATE.uploadedImageBase64 = null;
+        }
+
+        // ==================== CARNET ====================
+        function showCarnet(inscrito) {
+            document.getElementById('carnet-name').textContent = `${inscrito.nombre} ${inscrito.apellido}`;
+            document.getElementById('carnet-ci').textContent = inscrito.ci;
+            document.getElementById('carnet-institucion').textContent = inscrito.institucion;
+            document.getElementById('carnet-correo').textContent = inscrito.correo;
+            document.getElementById('carnet-id').textContent = inscrito.id.substring(0, 12);
+
+            const qrContainer = document.getElementById('qr-container');
+            qrContainer.innerHTML = '';
+
+            new QRCode(qrContainer, {
+                text: `${window.location.origin}${window.location.pathname}#confirmacion?id=${inscrito.id}`,
+                width: 150,
+                height: 150,
+                colorDark: '#1a3a5c',
+                colorLight: '#ffffff'
+            });
+        }
+
+        function printCarnet() {
+            window.print();
+        }
+
+        async function downloadCarnet() {
+            const carnet = document.getElementById('carnet-print');
+            try {
+                const canvas = await html2canvas(carnet, {
+                    backgroundColor: null,
+                    scale: 2
+                });
+                const link = document.createElement('a');
+                link.href = canvas.toDataURL('image/png');
+                link.download = `carnet-${APP_STATE.currentInscritoId.substring(0, 8)}.png`;
+                link.click();
+            } catch (error) {
+                console.error('Error al descargar carnet:', error);
+                alert('No se pudo descargar el carnet. Intenta con la opción de imprimir.');
+            }
+        }
+
+        // ==================== ADMIN: LOGIN ====================
+        function loginAdmin() {
+            const user = document.getElementById('admin-user').value;
+            const pass = document.getElementById('admin-pass').value;
+            const errorDiv = document.getElementById('login-error');
+
+            if (user === ADMIN_CREDENTIALS.user && pass === ADMIN_CREDENTIALS.password) {
+                APP_STATE.isLoggedIn = true;
+                document.getElementById('login-section').style.display = 'none';
+                document.getElementById('admin-section').style.display = 'block';
+                updateAdminIndicator();
+                showAdminDashboard();
+                loadInscritos();
+            } else {
+                errorDiv.textContent = 'Usuario o contraseña incorrectos';
+            }
+        }
+
+        function logoutAdmin() {
+            APP_STATE.isLoggedIn = false;
+            document.getElementById('login-section').style.display = 'block';
+            document.getElementById('admin-section').style.display = 'none';
+            document.getElementById('admin-user').value = '';
+            document.getElementById('admin-pass').value = '';
+            document.getElementById('login-error').textContent = '';
+            updateAdminIndicator();
+            navigateTo('inicio');
+        }
+
+        function updateAdminIndicator() {
+            const indicator = document.getElementById('admin-indicator');
+            if (APP_STATE.isLoggedIn) {
+                indicator.innerHTML = `
+                    <span class="admin-badge">🔐 ADMIN</span>
+                    <button class="logout-btn" onclick="logoutAdmin()">Cerrar Sesión</button>
+                `;
+            } else {
+                indicator.innerHTML = '';
+            }
+        }
+
+        // ==================== ADMIN: DASHBOARD ====================
+        function showAdminDashboard() {
+            loadInscritos();
+        }
+
+        function loadInscritos() {
+            APP_STATE.allInscritos = JSON.parse(localStorage.getItem('inscritos') || '[]');
+            updateStats();
+            displayInscritos(APP_STATE.allInscritos);
+        }
+
+        function updateStats() {
+            const total = APP_STATE.allInscritos.length;
+            const presentes = APP_STATE.allInscritos.filter(i => i.presente).length;
+            const ausentes = total - presentes;
+
+            document.getElementById('stat-total').textContent = total;
+            document.getElementById('stat-presentes').textContent = presentes;
+            document.getElementById('stat-ausentes').textContent = ausentes;
+        }
+
+        function displayInscritos(inscritos) {
+            const tbody = document.getElementById('inscritos-table');
+
+            if (inscritos.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; color: #7f8c8d;">No hay inscritos</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = inscritos.map((inscrito, index) => `
+                <tr>
+                    <td>${index + 1}</td>
+                    <td>${inscrito.nombre} ${inscrito.apellido}</td>
+                    <td>${inscrito.ci}</td>
+                    <td>${inscrito.institucion}</td>
+                    <td>${inscrito.correo}</td>
+                    <td>
+                        <span class="status-badge ${inscrito.presente ? 'status-presente' : 'status-ausente'}">
+                            ${inscrito.presente ? '✓ Presente' : 'Ausente'}
+                        </span>
+                    </td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="toggle-presence ${inscrito.presente ? 'present' : ''}" onclick="togglePresence('${inscrito.id}')">
+                                ${inscrito.presente ? '↩️ Marcar Ausente' : '✓ Marcar Presente'}
+                            </button>
+                            <button class="view-proof" onclick="showProof('${inscrito.id}')">📄 Comprobante</button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function togglePresence(id) {
+            const inscrito = APP_STATE.allInscritos.find(i => i.id === id);
+            if (inscrito) {
+                inscrito.presente = !inscrito.presente;
+                if (inscrito.presente) {
+                    inscrito.horaConfirmacion = new Date().toISOString();
+                } else {
+                    inscrito.horaConfirmacion = '';
+                }
+                localStorage.setItem('inscritos', JSON.stringify(APP_STATE.allInscritos));
+                loadInscritos();
+            }
+        }
+
+        function filterInscritos() {
+            const searchTerm = document.getElementById('search-filter').value.toLowerCase();
+            const filtered = APP_STATE.allInscritos.filter(i =>
+                i.nombre.toLowerCase().includes(searchTerm) ||
+                i.apellido.toLowerCase().includes(searchTerm) ||
+                i.ci.includes(searchTerm)
+            );
+            displayInscritos(filtered);
+        }
+
+        function exportList() {
+            let text = 'LISTA DE INSCRITOS - II SEMINARIO QUIRÚRGICO USCA\n';
+            text += `Fecha: ${new Date().toLocaleDateString('es-ES')}\n`;
+            text += '='.repeat(100) + '\n\n';
+            text += 'RESUMEN:\n';
+            text += `Total Inscritos: ${APP_STATE.allInscritos.length}\n`;
+            text += `Presentes: ${APP_STATE.allInscritos.filter(i => i.presente).length}\n`;
+            text += `Ausentes: ${APP_STATE.allInscritos.filter(i => !i.presente).length}\n\n`;
+            text += '='.repeat(100) + '\n\n';
+            text += `${'#'.padEnd(3)} | ${'Nombre Completo'.padEnd(25)} | ${'C.I.'.padEnd(10)} | ${'Institución'.padEnd(25)} | ${'Correo'.padEnd(25)} | ${'Asistencia'.padEnd(10)}\n`;
+            text += '-'.repeat(100) + '\n';
+
+            APP_STATE.allInscritos.forEach((inscrito, index) => {
+                const nombre = `${inscrito.nombre} ${inscrito.apellido}`.substring(0, 24);
+                const institucion = inscrito.institucion.substring(0, 24);
+                const correo = inscrito.correo.substring(0, 24);
+                const asistencia = inscrito.presente ? 'Presente' : 'Ausente';
+                text += `${String(index + 1).padEnd(3)} | ${nombre.padEnd(25)} | ${inscrito.ci.padEnd(10)} | ${institucion.padEnd(25)} | ${correo.padEnd(25)} | ${asistencia.padEnd(10)}\n`;
+            });
+
+            const blob = new Blob([text], { type: 'text/plain' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `lista-asistencia-${new Date().toISOString().split('T')[0]}.txt`;
+            link.click();
+        }
+
+        function showProof(id) {
+            const inscrito = APP_STATE.allInscritos.find(i => i.id === id);
+            if (inscrito && inscrito.comprobanteBase64) {
+                document.getElementById('proof-image').src = inscrito.comprobanteBase64;
+                document.getElementById('proof-modal').classList.add('active');
+            }
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        // ==================== ADMIN: QR SCANNER ====================
+        function startScanner() {
+            if (APP_STATE.qrScanner) {
+                stopScanner();
+            }
+            APP_STATE.isScanning = true;
+            document.getElementById('stop-scanner-btn').style.display = 'inline-block';
+
+            const html5QrcodeScanner = new Html5QrcodeScanner(
+                'qr-reader',
+                { fps: 10, qrbox: { width: 250, height: 250 } },
+                false
+            );
+
+            const onScanSuccess = (decodedText) => {
+                let id = null;
+                try {
+                    const decodedUrl = new URL(decodedText);
+                    const hashQuery = decodedUrl.hash.split('?')[1] || '';
+                    id = new URLSearchParams(hashQuery).get('id');
+                } catch (error) {
+                    return;
+                }
+
+                if (id) {
+                    const inscrito = APP_STATE.allInscritos.find(i => i.id === id);
+                    if (inscrito) {
+                        const wasPresent = inscrito.presente;
+                        inscrito.presente = true;
+                        inscrito.horaConfirmacion = new Date().toISOString();
+                        localStorage.setItem('inscritos', JSON.stringify(APP_STATE.allInscritos));
+
+                        const resultDiv = document.getElementById('scanner-result');
+                        resultDiv.className = 'scanner-result active ' + (wasPresent ? 'result-warning' : 'result-success');
+                        document.getElementById('result-name').textContent = `${inscrito.nombre} ${inscrito.apellido}`;
+                        document.getElementById('result-info').innerHTML = `
+                            <div style="margin: 1rem 0;">
+                                <strong>C.I.:</strong> ${inscrito.ci}<br>
+                                <strong>Institución:</strong> ${inscrito.institucion}<br>
+                                <strong>Hora:</strong> ${new Date(inscrito.horaConfirmacion).toLocaleTimeString('es-ES')}<br>
+                                <strong style="${wasPresent ? 'color: var(--warning)' : 'color: var(--success)'}">
+                                    ${wasPresent ? '✓ Ya registrado anteriormente' : '✓ Confirmado'}
+                                </strong>
+                            </div>
+                        `;
+
+                        loadInscritos();
+
+                        setTimeout(() => {
+                            resultDiv.classList.remove('active');
+                        }, 3000);
+                    }
+                }
+            };
+
+            html5QrcodeScanner.render(onScanSuccess);
+            APP_STATE.qrScanner = html5QrcodeScanner;
+        }
+
+        function stopScanner() {
+            if (APP_STATE.qrScanner) {
+                APP_STATE.qrScanner.clear();
+                APP_STATE.qrScanner = null;
+                APP_STATE.isScanning = false;
+                document.getElementById('stop-scanner-btn').style.display = 'none';
+                document.getElementById('scanner-result').classList.remove('active');
+            }
+        }
+
+        // ==================== ADMIN: TABS ====================
+        function switchAdminTab(event, tab) {
+            document.querySelectorAll('.admin-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.admin-tab').forEach(el => el.classList.remove('active'));
+
+            document.getElementById(`tab-${tab}`).classList.add('active');
+            if (event && event.currentTarget) {
+                event.currentTarget.classList.add('active');
+            }
+
+            if (tab === 'escaner') {
+                document.getElementById('qr-reader').innerHTML = '';
+                document.getElementById('scanner-result').classList.remove('active');
+            }
+        }
+
+        // ==================== CONFIRMACIÓN POR QR ====================
+        function handleConfirmationPage() {
+            const page = window.location.hash;
+            const urlParams = new URLSearchParams(page.split('?')[1]);
+            const id = urlParams.get('id');
+
+            const view = document.querySelector('.view.active');
+            if (view) view.classList.remove('active');
+            document.getElementById('confirmacion').classList.add('active');
+
+            if (id) {
+                const inscritos = JSON.parse(localStorage.getItem('inscritos') || '[]');
+                const inscrito = inscritos.find(i => i.id === id);
+
+                if (inscrito) {
+                    const horaConfirmacion = inscrito.horaConfirmacion
+                        ? new Date(inscrito.horaConfirmacion).toLocaleString('es-ES')
+                        : 'No confirmado';
+
+                    document.getElementById('confirmation-content').innerHTML = `
+                        <div class="confirmation-card">
+                            <div class="confirmation-header">
+                                <h2>✓ Información de Asistencia</h2>
+                                <p>II Seminario de Actualización Quirúrgica - USCA 2026</p>
+                            </div>
+
+                            <div class="confirmation-info">
+                                <div class="info-row">
+                                    <span class="info-label">Nombre:</span>
+                                    <span class="info-value">${inscrito.nombre} ${inscrito.apellido}</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">C.I.:</span>
+                                    <span class="info-value">${inscrito.ci}</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">Institución:</span>
+                                    <span class="info-value">${inscrito.institucion}</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">Correo:</span>
+                                    <span class="info-value">${inscrito.correo}</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">Fecha Inscripción:</span>
+                                    <span class="info-value">${new Date(inscrito.fechaInscripcion).toLocaleDateString('es-ES')}</span>
+                                </div>
+                            </div>
+
+                            <div class="presence-indicator ${inscrito.presente ? 'presence-yes' : 'presence-no'}">
+                                ${inscrito.presente
+                                    ? `<div>✓ PRESENTE</div><div style="font-size: 0.9rem; margin-top: 0.5rem;">${horaConfirmacion}</div>`
+                                    : '<div>✗ NO CONFIRMADO</div>'}
+                            </div>
+
+                            <div style="text-align: center; margin-top: 2rem;">
+                                <button class="btn" onclick="navigateTo('inicio')">Volver al Inicio</button>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    document.getElementById('confirmation-content').innerHTML = `
+                        <div class="confirmation-card">
+                            <div style="text-align: center; color: var(--danger);">
+                                <h2 style="color: var(--danger);">No Encontrado</h2>
+                                <p style="margin: 1rem 0;">El código QR no corresponde a un inscrito válido.</p>
+                                <button class="btn" onclick="navigateTo('inicio')">Volver al Inicio</button>
+                            </div>
+                        </div>
+                    `;
+                }
+            } else {
+                document.getElementById('confirmation-content').innerHTML = `
+                    <div class="confirmation-card">
+                        <div style="text-align: center;">
+                            <h2>Escanea tu QR</h2>
+                            <p style="margin: 1rem 0;">Utiliza un lector de códigos QR en esta página para confirmar tu asistencia.</p>
+                            <button class="btn" onclick="navigateTo('inicio')">Volver al Inicio</button>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        // ==================== MODAL HELPERS ====================
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('modal')) {
+                e.target.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>
