@@ -2,10 +2,1052 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="refresh" content="0;url=seminario-usca.html">
-    <title>Redirigiendo...</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>II Seminario de Actualización Quirúrgica - USCA</title>
+    
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js"></script>
+    <!-- QR & Html2Canvas -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #0f3460;
+            --secondary: #e94560;
+            --accent: #16c784;
+            --dark: #1a1a2e;
+            --light: #f8f9fa;
+            --text: #2c3e50;
+        }
+
+        html, body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--light) 0%, #e8f4f8 100%);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        /* ============ HEADER ============ */
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, #1a4d7a 100%);
+            color: white;
+            padding: 1.5rem 2rem;
+            box-shadow: 0 8px 32px rgba(15, 52, 96, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        nav {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--secondary);
+            transition: width 0.3s;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        .admin-btn {
+            background: var(--secondary);
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 50px;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .admin-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(233, 69, 96, 0.3);
+        }
+
+        /* ============ HERO ============ */
+        .hero {
+            min-height: 70vh;
+            background: linear-gradient(135deg, var(--primary) 0%, #1a4d7a 50%, #0f3460 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: rgba(233, 69, 96, 0.1);
+            border-radius: 50%;
+            top: -100px;
+            right: -100px;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: rgba(22, 199, 132, 0.05);
+            border-radius: 50%;
+            bottom: -80px;
+            left: -80px;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+            font-weight: 300;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            background: var(--secondary);
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: 2px solid var(--secondary);
+            margin: 0 0.5rem;
+            cursor: pointer;
+        }
+
+        .cta-btn:hover {
+            background: white;
+            color: var(--secondary);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 24px rgba(233, 69, 96, 0.3);
+        }
+
+        .cta-btn.outline {
+            background: transparent;
+            border-color: white;
+        }
+
+        .cta-btn.outline:hover {
+            background: white;
+            color: var(--primary);
+        }
+
+        /* ============ SECTIONS ============ */
+        section {
+            padding: 4rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 1.1rem;
+            margin-bottom: 3rem;
+        }
+
+        /* ============ AGENDA ============ */
+        .agenda-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .agenda-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s;
+            border-left: 4px solid var(--secondary);
+        }
+
+        .agenda-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+        }
+
+        .agenda-time {
+            color: var(--secondary);
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .agenda-topic {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .agenda-speaker {
+            color: #7f8c8d;
+            font-style: italic;
+        }
+
+        /* ============ INSCRIPTION FORM ============ */
+        .form-card {
+            background: white;
+            padding: 3rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(233, 69, 96, 0.1);
+        }
+
+        .file-input-label {
+            display: block;
+            padding: 2rem;
+            border: 2px dashed var(--secondary);
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: #f8f9fa;
+        }
+
+        .file-input-label:hover {
+            background: #efefef;
+            border-color: var(--primary);
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        .btn-submit {
+            width: 100%;
+            background: linear-gradient(135deg, var(--secondary) 0%, #d63546 100%);
+            color: white;
+            padding: 1rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1rem;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(233, 69, 96, 0.3);
+        }
+
+        /* ============ ADMIN PANEL ============ */
+        .admin-panel {
+            display: none;
+            position: fixed;
+            right: 0;
+            top: 80px;
+            width: 400px;
+            height: calc(100vh - 80px);
+            background: white;
+            box-shadow: -2px 0 20px rgba(0, 0, 0, 0.15);
+            z-index: 998;
+            overflow-y: auto;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+            }
+            to {
+                transform: translateX(0);
+            }
+        }
+
+        .admin-panel.active {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .admin-header {
+            background: var(--primary);
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+            border-bottom: 3px solid var(--secondary);
+        }
+
+        .admin-header h2 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .admin-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            padding: 1rem;
+            background: #f8f9fa;
+        }
+
+        .stat-box {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .stat-number {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--secondary);
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: #7f8c8d;
+            font-weight: 600;
+        }
+
+        .admin-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+        }
+
+        .admin-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .admin-tab-btn {
+            flex: 1;
+            background: #e0e0e0;
+            border: none;
+            padding: 0.7rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .admin-tab-btn.active {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .admin-tab-content {
+            display: none;
+        }
+
+        .admin-tab-content.active {
+            display: block;
+        }
+
+        .inscritos-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .inscrito-item {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 0.8rem;
+            border-left: 3px solid var(--accent);
+        }
+
+        .inscrito-name {
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .inscrito-info {
+            font-size: 0.85rem;
+            color: #7f8c8d;
+            margin-top: 0.3rem;
+        }
+
+        /* ============ INSCRITOS SECTION ============ */
+        .inscritos-section {
+            background: white;
+            padding: 3rem 2rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        }
+
+        .inscritos-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 2rem;
+        }
+
+        .inscritos-table thead {
+            background: var(--primary);
+            color: white;
+        }
+
+        .inscritos-table th,
+        .inscritos-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .inscritos-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.4rem 0.8rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .status-presente {
+            background: rgba(22, 199, 132, 0.2);
+            color: var(--accent);
+        }
+
+        .status-ausente {
+            background: rgba(233, 69, 96, 0.2);
+            color: var(--secondary);
+        }
+
+        /* ============ CARNET ============ */
+        .carnet {
+            background: linear-gradient(135deg, var(--primary) 0%, #1a4d7a 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            margin-top: 2rem;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .carnet-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .carnet-info {
+            margin-bottom: 1rem;
+        }
+
+        .carnet-label {
+            font-size: 0.85rem;
+            opacity: 0.8;
+        }
+
+        .carnet-value {
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .qr-container {
+            margin: 1.5rem 0;
+        }
+
+        /* ============ RESPONSIVE ============ */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .admin-panel {
+                width: 100%;
+                right: -100%;
+            }
+
+            nav {
+                gap: 1rem;
+                flex-wrap: wrap;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .form-card {
+                padding: 2rem 1.5rem;
+            }
+
+            .agenda-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .admin-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .inscritos-table {
+                font-size: 0.85rem;
+            }
+
+            .inscritos-table th,
+            .inscritos-table td {
+                padding: 0.7rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 1.5rem;
+            }
+
+            .cta-btn {
+                display: block;
+                margin: 0.5rem 0;
+            }
+
+            section {
+                padding: 2rem 1rem;
+            }
+        }
+
+        .hide {
+            display: none !important;
+        }
+
+        .loading {
+            display: inline-block;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
 </head>
 <body>
-    <p>Redirigiendo al seminario...</p>
+
+    <!-- ============ HEADER ============ -->
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <i class="fas fa-stethoscope"></i> SEMINARIO USCA
+            </div>
+            <nav>
+                <a href="#inicio">Inicio</a>
+                <a href="#agenda">Agenda</a>
+                <a href="#inscripcion">Inscripción</a>
+                <button class="admin-btn" onclick="mostrarAdmin()"><i class="fas fa-lock"></i> Admin</button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ============ HERO ============ -->
+    <section class="hero" id="inicio">
+        <div class="hero-content">
+            <h1>II Seminario de Actualización Quirúrgica</h1>
+            <p>Formación de excelencia en ciencias de la salud</p>
+            <button class="cta-btn" onclick="document.getElementById('inscripcion').scrollIntoView({behavior: 'smooth'})">
+                <i class="fas fa-pen-fancy"></i> Inscribirme Ahora
+            </button>
+            <button class="cta-btn outline" onclick="document.getElementById('agenda').scrollIntoView({behavior: 'smooth'})">
+                <i class="fas fa-calendar"></i> Ver Agenda
+            </button>
+        </div>
+    </section>
+
+    <!-- ============ AGENDA ============ -->
+    <section id="agenda">
+        <h2 class="section-title">Agenda del Seminario</h2>
+        <p class="section-subtitle">Programa completo de actividades</p>
+        
+        <div class="agenda-grid" id="agendaGrid">
+            <!-- Se llena con JavaScript -->
+        </div>
+    </section>
+
+    <!-- ============ INSCRIPTION ============ -->
+    <section id="inscripcion">
+        <h2 class="section-title">Formulario de Inscripción</h2>
+        <p class="section-subtitle">Regístrate ahora y obtén tu carnet digital</p>
+
+        <div class="form-card">
+            <form id="inscripcionForm" onsubmit="registrarInscrito(event)">
+                <div class="form-group">
+                    <label><i class="fas fa-file-pdf"></i> Comprobante de Pago</label>
+                    <label class="file-input-label" id="fileLabel">
+                        📎 Arrastra o haz clic para cargar
+                    </label>
+                    <input type="file" id="fileInput" accept="image/*" onchange="handleFileUpload()">
+                </div>
+
+                <div id="imagePreview"></div>
+
+                <div class="form-group">
+                    <label><i class="fas fa-user"></i> Nombre</label>
+                    <input type="text" id="nombre" required placeholder="Tu nombre">
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fas fa-user-tag"></i> Apellido</label>
+                    <input type="text" id="apellido" required placeholder="Tu apellido">
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fas fa-id-card"></i> Cédula de Identidad</label>
+                    <input type="text" id="ci" required placeholder="Ej: 12345678">
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fas fa-map-marker-alt"></i> Dirección</label>
+                    <input type="text" id="direccion" required placeholder="Calle, número, ciudad">
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fas fa-hospital"></i> Institución</label>
+                    <input type="text" id="institucion" required placeholder="Hospital, Universidad, etc.">
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fas fa-envelope"></i> Correo Electrónico</label>
+                    <input type="email" id="correo" required placeholder="tu@email.com">
+                </div>
+
+                <button type="submit" class="btn-submit">
+                    <i class="fas fa-check"></i> Registrarme
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <!-- ============ INSCRITOS (Al final) ============ -->
+    <section id="inscritos" style="background: #f8f9fa;">
+        <div class="inscritos-section">
+            <h2 class="section-title">Participantes Registrados</h2>
+            <p class="section-subtitle">Total de inscritos en el seminario</p>
+            <table class="inscritos-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Nombre</th>
+                        <th>C.I.</th>
+                        <th>Institución</th>
+                        <th>Correo</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody id="inscritosTableBody">
+                    <tr>
+                        <td colspan="6" style="text-align: center; color: #7f8c8d;">
+                            <i class="fas fa-spinner loading"></i> Cargando inscritos...
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- ============ ADMIN PANEL (Fixed) ============ -->
+    <div class="admin-panel" id="adminPanel">
+        <div class="admin-header">
+            <h2><i class="fas fa-cog"></i> Panel Admin</h2>
+            <button onclick="cerrarAdmin()" style="position: absolute; top: 1rem; right: 1rem; background: none; border: none; color: white; cursor: pointer; font-size: 1.5rem;">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <div class="admin-stats">
+            <div class="stat-box">
+                <div class="stat-number" id="totalInscritos">0</div>
+                <div class="stat-label">TOTAL</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number" id="presentesCount">0</div>
+                <div class="stat-label">PRESENTES</div>
+            </div>
+        </div>
+
+        <div class="admin-tabs">
+            <button class="admin-tab-btn active" onclick="cambiarTab(event, 'lista')">📋 Lista</button>
+            <button class="admin-tab-btn" onclick="cambiarTab(event, 'escaner')">📱 Escáner</button>
+            <button class="admin-tab-btn" onclick="cambiarTab(event, 'exportar')">📥 Exportar</button>
+        </div>
+
+        <div class="admin-content">
+            <!-- Tab: Lista -->
+            <div id="lista" class="admin-tab-content active">
+                <div class="inscritos-list" id="adminInscritosList">
+                    <p style="text-align: center; color: #7f8c8d;">Cargando...</p>
+                </div>
+            </div>
+
+            <!-- Tab: Escáner -->
+            <div id="escaner" class="admin-tab-content">
+                <div style="text-align: center; margin-bottom: 1rem;">
+                    <button onclick="iniciarEscaner()" class="cta-btn" style="width: 100%;">
+                        <i class="fas fa-camera"></i> Iniciar Escáner
+                    </button>
+                </div>
+                <div id="qr-reader" style="width: 100%;"></div>
+                <div id="resultado-escaner" style="margin-top: 1rem; padding: 1rem; background: #f8f9fa; border-radius: 8px; text-align: center; display: none;">
+                    <p id="resultado-texto"></p>
+                </div>
+            </div>
+
+            <!-- Tab: Exportar -->
+            <div id="exportar" class="admin-tab-content">
+                <button onclick="exportarCSV()" class="cta-btn" style="width: 100%; margin-bottom: 1rem;">
+                    <i class="fas fa-download"></i> Descargar CSV
+                </button>
+                <button onclick="exportarPDF()" class="cta-btn" style="width: 100%;">
+                    <i class="fas fa-file-pdf"></i> Descargar PDF
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============ SCRIPTS ============ -->
+    <script>
+        // ========== FIREBASE CONFIG ==========
+        const firebaseConfig = {
+            apiKey: "AIzaSyDCMQjh5PCz2f17xxhMF0JkGAjliCBreUg",
+            authDomain: "seminario-usca.firebaseapp.com",
+            databaseURL: "https://seminario-usca-default-rtdb.firebaseio.com",
+            projectId: "seminario-usca",
+            storageBucket: "seminario-usca.firebasestorage.app",
+            messagingSenderId: "560733409147",
+            appId: "1:560733409147:web:13f01f10f3ee961ab677de"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
+        // ========== GLOBAL STATE ==========
+        let adminLoggedIn = false;
+        let allInscritos = [];
+        let uploadedImage = null;
+
+        // ========== AGENDA DATA ==========
+        const agendaData = [
+            { hora: "08:00 AM", tema: "Bienvenida y Apertura", speaker: "Director USCA" },
+            { hora: "09:00 AM", tema: "Tendencias en Cirugía Moderna", speaker: "Dr. García" },
+            { hora: "10:30 AM", tema: "Receso" },
+            { hora: "11:00 AM", tema: "Actualización en Protocolos Quirúrgicos", speaker: "Dra. López" },
+            { hora: "12:30 PM", tema: "Almuerzo" },
+            { hora: "02:00 PM", tema: "Panel de Especialistas", speaker: "Profesionales Invitados" },
+            { hora: "03:30 PM", tema: "Taller Práctico", speaker: "Equipo Técnico" },
+            { hora: "05:00 PM", tema: "Clausura y Reconocimientos", speaker: "Ceremonia" }
+        ];
+
+        // ========== CARGAR AGENDA ==========
+        function cargarAgenda() {
+            const agendaGrid = document.getElementById('agendaGrid');
+            agendaGrid.innerHTML = agendaData.map(item => `
+                <div class="agenda-card">
+                    <div class="agenda-time"><i class="fas fa-clock"></i> ${item.hora}</div>
+                    <div class="agenda-topic">${item.tema}</div>
+                    <div class="agenda-speaker">${item.speaker}</div>
+                </div>
+            `).join('');
+        }
+
+        // ========== FILE UPLOAD ==========
+        function handleFileUpload() {
+            const fileInput = document.getElementById('fileInput');
+            const file = fileInput.files[0];
+            
+            if (file && file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    uploadedImage = e.target.result;
+                    document.getElementById('imagePreview').innerHTML = `
+                        <img src="${uploadedImage}" style="max-width: 100%; max-height: 200px; border-radius: 8px; margin-top: 1rem;">
+                    `;
+                    document.getElementById('fileLabel').textContent = '✓ Imagen Cargada';
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // ========== REGISTRAR INSCRITO ==========
+        function registrarInscrito(event) {
+            event.preventDefault();
+
+            if (!uploadedImage) {
+                alert('Por favor carga el comprobante de pago');
+                return;
+            }
+
+            const inscrito = {
+                id: Date.now().toString(),
+                nombre: document.getElementById('nombre').value,
+                apellido: document.getElementById('apellido').value,
+                ci: document.getElementById('ci').value,
+                direccion: document.getElementById('direccion').value,
+                institucion: document.getElementById('institucion').value,
+                correo: document.getElementById('correo').value,
+                comprobante: uploadedImage,
+                fecha: new Date().toISOString(),
+                presente: false
+            };
+
+            // Guardar en Firebase
+            db.ref('inscritos/' + inscrito.id).set(inscrito, (error) => {
+                if (error) {
+                    alert('Error al registrar: ' + error.message);
+                } else {
+                    alert('¡Inscripción exitosa! Tu carnet digital está listo.');
+                    document.getElementById('inscripcionForm').reset();
+                    document.getElementById('imagePreview').innerHTML = '';
+                    document.getElementById('fileLabel').textContent = '📎 Arrastra o haz clic para cargar';
+                    uploadedImage = null;
+                    cargarInscritos();
+                }
+            });
+        }
+
+        // ========== CARGAR INSCRITOS ==========
+        function cargarInscritos() {
+            db.ref('inscritos').on('value', (snapshot) => {
+                allInscritos = [];
+                snapshot.forEach((child) => {
+                    allInscritos.push(child.val());
+                });
+
+                // Actualizar tabla pública
+                actualizarTablaInscritos();
+                
+                // Actualizar panel admin si está logueado
+                if (adminLoggedIn) {
+                    actualizarPanelAdmin();
+                }
+            });
+        }
+
+        // ========== ACTUALIZAR TABLA INSCRITOS ==========
+        function actualizarTablaInscritos() {
+            const tbody = document.getElementById('inscritosTableBody');
+            
+            if (allInscritos.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: #7f8c8d;">No hay inscritos aún</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = allInscritos.map((inscrito, index) => `
+                <tr>
+                    <td>${index + 1}</td>
+                    <td>${inscrito.nombre} ${inscrito.apellido}</td>
+                    <td>${inscrito.ci}</td>
+                    <td>${inscrito.institucion}</td>
+                    <td>${inscrito.correo}</td>
+                    <td>
+                        <span class="status-badge ${inscrito.presente ? 'status-presente' : 'status-ausente'}">
+                            ${inscrito.presente ? '✓ Presente' : 'Ausente'}
+                        </span>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // ========== ADMIN LOGIN ==========
+        function mostrarAdmin() {
+            const pass = prompt('Contraseña de administrador:');
+            if (pass === 'usca2025') {
+                adminLoggedIn = true;
+                document.getElementById('adminPanel').classList.add('active');
+                actualizarPanelAdmin();
+            } else {
+                alert('Contraseña incorrecta');
+            }
+        }
+
+        // ========== CERRAR ADMIN ==========
+        function cerrarAdmin() {
+            adminLoggedIn = false;
+            document.getElementById('adminPanel').classList.remove('active');
+        }
+
+        // ========== ACTUALIZAR PANEL ADMIN ==========
+        function actualizarPanelAdmin() {
+            const total = allInscritos.length;
+            const presentes = allInscritos.filter(i => i.presente).length;
+
+            document.getElementById('totalInscritos').textContent = total;
+            document.getElementById('presentesCount').textContent = presentes;
+
+            const lista = document.getElementById('adminInscritosList');
+            lista.innerHTML = allInscritos.map((inscrito) => `
+                <div class="inscrito-item">
+                    <div class="inscrito-name">${inscrito.nombre} ${inscrito.apellido}</div>
+                    <div class="inscrito-info">C.I.: ${inscrito.ci}</div>
+                    <div class="inscrito-info">${inscrito.institucion}</div>
+                    <div class="inscrito-info">
+                        <button onclick="togglePresencia('${inscrito.id}')" 
+                            style="background: ${inscrito.presente ? 'var(--accent)' : 'var(--secondary)'}; color: white; border: none; padding: 0.4rem 0.8rem; border-radius: 4px; cursor: pointer; font-size: 0.85rem;">
+                            ${inscrito.presente ? '↩️ Ausente' : '✓ Presente'}
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // ========== CAMBIAR TAB ==========
+        function cambiarTab(event, tabName) {
+            document.querySelectorAll('.admin-tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.admin-tab-btn').forEach(el => el.classList.remove('active'));
+            
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // ========== TOGGLE PRESENCIA ==========
+        function togglePresencia(id) {
+            const inscrito = allInscritos.find(i => i.id === id);
+            if (inscrito) {
+                db.ref('inscritos/' + id + '/presente').set(!inscrito.presente);
+            }
+        }
+
+        // ========== EXPORTAR CSV ==========
+        function exportarCSV() {
+            let csv = 'Nombre,C.I.,Institución,Correo,Presente\n';
+            allInscritos.forEach(inscrito => {
+                csv += `${inscrito.nombre} ${inscrito.apellido},${inscrito.ci},${inscrito.institucion},${inscrito.correo},${inscrito.presente ? 'Sí' : 'No'}\n`;
+            });
+
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `inscritos-${new Date().toISOString().split('T')[0]}.csv`;
+            link.click();
+        }
+
+        // ========== EXPORTAR PDF ==========
+        function exportarPDF() {
+            alert('Exportar PDF en desarrollo');
+        }
+
+        // ========== INICIAR ESCANER ==========
+        function iniciarEscaner() {
+            alert('Escáner QR en desarrollo');
+        }
+
+        // ========== INIT ==========
+        document.addEventListener('DOMContentLoaded', () => {
+            cargarAgenda();
+            cargarInscritos();
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
