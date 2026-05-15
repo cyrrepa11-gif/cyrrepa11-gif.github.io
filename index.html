@@ -188,27 +188,6 @@
             margin-top: 0.3rem;
         }
 
-        .cta-btn {
-            display: inline-block;
-            background: var(--secondary);
-            color: white;
-            padding: 1rem 2.5rem;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s;
-            border: 2px solid var(--secondary);
-            margin: 0 0.5rem;
-            cursor: pointer;
-        }
-
-        .cta-btn:hover {
-            background: white;
-            color: var(--secondary);
-            transform: translateY(-3px);
-            box-shadow: 0 12px 24px rgba(233, 69, 96, 0.3);
-        }
-
         /* ============ AUSPICIANTES CARRUSEL ============ */
         .auspiciantes-section {
             padding: 4rem 2rem;
@@ -340,6 +319,36 @@
             font-size: 0.95rem;
         }
 
+        /* ============ CTA SECTION ============ */
+        .cta-section {
+            padding: 4rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            background: var(--secondary);
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: 2px solid var(--secondary);
+            margin: 0 0.5rem;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .cta-btn:hover {
+            background: white;
+            color: var(--secondary);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 24px rgba(233, 69, 96, 0.3);
+        }
+
         /* ============ SECTIONS ============ */
         section {
             max-width: 1400px;
@@ -398,10 +407,6 @@
 
         .close-modal:hover {
             color: black;
-        }
-
-        .form-card {
-            background: white;
         }
 
         .form-group {
@@ -469,6 +474,77 @@
         .btn-submit:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 16px rgba(233, 69, 96, 0.3);
+        }
+
+        /* ============ MODAL LOGIN ADMIN ============ */
+        .modal-login-admin {
+            display: none;
+            position: fixed;
+            z-index: 1051;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            overflow: auto;
+        }
+
+        .modal-login-admin.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-content {
+            background: white;
+            padding: 3rem;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 450px;
+            animation: slideDown 0.3s ease-out;
+            text-align: center;
+        }
+
+        .login-content h2 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+        }
+
+        .login-content .form-group {
+            text-align: left;
+        }
+
+        .close-login {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close-login:hover {
+            color: black;
+        }
+
+        .btn-login {
+            width: 100%;
+            background: linear-gradient(135deg, var(--primary) 0%, #1a4d7a 100%);
+            color: white;
+            padding: 1rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1rem;
+            margin-top: 1rem;
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(15, 52, 96, 0.3);
         }
 
         /* ============ ADMIN PANEL ============ */
@@ -660,6 +736,10 @@
                 width: 95%;
             }
 
+            .login-content {
+                padding: 2rem;
+            }
+
             .hero-info {
                 flex-direction: column;
             }
@@ -715,10 +795,6 @@
                     <div class="info-item-value">USCA</div>
                 </div>
             </div>
-
-            <button class="cta-btn" onclick="abrirModalInscripcion()">
-                <i class="fas fa-pen-fancy"></i> Inscribirme Ahora
-            </button>
         </div>
     </section>
 
@@ -749,6 +825,32 @@
         </div>
     </section>
 
+    <!-- ============ CTA SECTION (INSCRIBIRSE) ============ -->
+    <section class="cta-section">
+        <h2 class="section-title">¿Listo para participar?</h2>
+        <p class="section-subtitle">No te pierdas esta oportunidad de actualización profesional</p>
+        <button class="cta-btn" onclick="abrirModalInscripcion()">
+            <i class="fas fa-pen-fancy"></i> Inscribirme Ahora
+        </button>
+    </section>
+
+    <!-- ============ MODAL LOGIN ADMIN ============ -->
+    <div class="modal-login-admin" id="modalLoginAdmin">
+        <div class="login-content">
+            <span class="close-login" onclick="cerrarLoginAdmin()">&times;</span>
+            <h2><i class="fas fa-lock"></i> Acceso de Administrador</h2>
+            
+            <div class="form-group">
+                <label><i class="fas fa-key"></i> Contraseña</label>
+                <input type="password" id="passwordAdmin" placeholder="Ingresa la contraseña" onkeypress="if(event.key==='Enter') verificarContraseña()">
+            </div>
+
+            <button class="btn-login" onclick="verificarContraseña()">
+                <i class="fas fa-sign-in-alt"></i> Ingresar
+            </button>
+        </div>
+    </div>
+
     <!-- ============ MODAL INSCRIPCION ============ -->
     <div class="modal-inscripcion" id="modalInscripcion">
         <div class="modal-content-custom">
@@ -758,7 +860,7 @@
             <form id="inscripcionForm" onsubmit="registrarInscrito(event)">
                 <div class="form-group">
                     <label><i class="fas fa-file-pdf"></i> Comprobante de Pago</label>
-                    <label class="file-input-label" id="fileLabel">
+                    <label class="file-input-label" id="fileLabel" for="fileInput">
                         📎 Arrastra o haz clic para cargar
                     </label>
                     <input type="file" id="fileInput" accept="image/*" onchange="handleFileUpload()">
@@ -939,7 +1041,6 @@
 
         // ========== CARGAR DATOS INICIALES ==========
         function cargarDatos() {
-            // Cargar evento info
             db.ref('evento').once('value').then(snap => {
                 if (snap.val()) {
                     eventInfo = snap.val();
@@ -947,9 +1048,8 @@
                     db.ref('evento').set(eventInfo);
                 }
                 actualizarInfoEvento();
-            });
+            }).catch(err => console.error('Error cargando evento:', err));
 
-            // Cargar agenda
             db.ref('agenda').on('value', snap => {
                 allAgenda = [];
                 snap.forEach(child => {
@@ -962,24 +1062,22 @@
                 } else {
                     actualizarAgenda();
                 }
-            });
+            }).catch(err => console.error('Error cargando agenda:', err));
 
-            // Cargar auspiciantes
             db.ref('auspiciantes').on('value', snap => {
                 allAuspiciantes = [];
                 snap.forEach(child => {
                     allAuspiciantes.push({ id: child.key, ...child.val() });
                 });
                 actualizarAuspiciantes();
-            });
+            }).catch(err => console.error('Error cargando auspiciantes:', err));
 
-            // Cargar inscritos
             db.ref('inscritos').on('value', snap => {
                 allInscritos = [];
                 snap.forEach(child => {
                     allInscritos.push({ id: child.key, ...child.val() });
                 });
-            });
+            }).catch(err => console.error('Error cargando inscritos:', err));
         }
 
         // ========== ACTUALIZAR INFO EVENTO ==========
@@ -1019,6 +1117,158 @@
             `).join('');
             
             carousel.innerHTML = items + items;
+        }
+
+        // ========== LOGIN ADMIN ==========
+        function mostrarLoginAdmin() {
+            document.getElementById('modalLoginAdmin').classList.add('active');
+            document.getElementById('passwordAdmin').focus();
+        }
+
+        function cerrarLoginAdmin() {
+            document.getElementById('modalLoginAdmin').classList.remove('active');
+            document.getElementById('passwordAdmin').value = '';
+        }
+
+        function verificarContraseña() {
+            const pass = document.getElementById('passwordAdmin').value;
+            if (pass === 'usca2026') {
+                adminLoggedIn = true;
+                cerrarLoginAdmin();
+                document.getElementById('adminPanel').classList.add('active');
+                cargarInfoAdmin();
+            } else if (pass.trim() !== '') {
+                alert('❌ Contraseña incorrecta');
+                document.getElementById('passwordAdmin').value = '';
+            }
+        }
+
+        function cerrarAdmin() {
+            adminLoggedIn = false;
+            document.getElementById('adminPanel').classList.remove('active');
+        }
+
+        // ========== CARGAR INFO ADMIN ==========
+        function cargarInfoAdmin() {
+            document.getElementById('descEvento').value = eventInfo.descripcion;
+            document.getElementById('fechaEventoInput').value = eventInfo.fecha;
+            document.getElementById('horaInicioInput').value = eventInfo.horaInicio;
+            document.getElementById('horaFinInput').value = eventInfo.horaFin;
+
+            actualizarAgendaListAdmin();
+            actualizarAuspiciantesList();
+        }
+
+        // ========== GUARDAR INFO EVENTO ==========
+        function guardarEventoInfo() {
+            eventInfo.descripcion = document.getElementById('descEvento').value;
+            eventInfo.fecha = document.getElementById('fechaEventoInput').value;
+            eventInfo.horaInicio = document.getElementById('horaInicioInput').value;
+            eventInfo.horaFin = document.getElementById('horaFinInput').value;
+
+            db.ref('evento').set(eventInfo).then(() => {
+                alert('✓ Cambios guardados');
+                actualizarInfoEvento();
+            }).catch(err => alert('Error: ' + err.message));
+        }
+
+        // ========== AGENDA ADMIN ==========
+        function agregarAgenda() {
+            const hora = document.getElementById('nuevaHora').value;
+            const tema = document.getElementById('nuevoTema').value;
+            const speaker = document.getElementById('nuevoSpeaker').value;
+            const procedencia = document.getElementById('nuevoProcedencia').value;
+
+            if (!hora || !tema) {
+                alert('Completa hora y tema');
+                return;
+            }
+
+            db.ref('agenda').push({ hora, tema, speaker, procedencia }).then(() => {
+                document.getElementById('nuevaHora').value = '';
+                document.getElementById('nuevoTema').value = '';
+                document.getElementById('nuevoSpeaker').value = '';
+                document.getElementById('nuevoProcedencia').value = '';
+                alert('✓ Actividad agregada');
+            }).catch(err => alert('Error: ' + err.message));
+        }
+
+        function actualizarAgendaListAdmin() {
+            const list = document.getElementById('agendaListAdmin');
+            list.innerHTML = allAgenda.map(item => `
+                <div class="list-item">
+                    <strong>${item.hora} - ${item.tema}</strong>
+                    <div style="font-size: 0.85rem; color: #7f8c8d;">Dr: ${item.speaker || 'N/A'}</div>
+                    <button class="btn-small btn-danger" onclick="eliminarAgenda('${item.id}')">
+                        <i class="fas fa-trash"></i> Eliminar
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function eliminarAgenda(id) {
+            if (confirm('¿Eliminar esta actividad?')) {
+                db.ref('agenda/' + id).remove().then(() => {
+                    alert('✓ Actividad eliminada');
+                }).catch(err => alert('Error: ' + err.message));
+            }
+        }
+
+        // ========== AUSPICIANTES ADMIN ==========
+        function agregarAuspiciante() {
+            const nombre = document.getElementById('nombreAuspiciante').value;
+            const logoInput = document.getElementById('logoAuspiciante');
+
+            if (!nombre) {
+                alert('Ingresa nombre del auspiciante');
+                return;
+            }
+
+            if (logoInput.files.length > 0) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    db.ref('auspiciantes').push({ nombre, logo: e.target.result }).then(() => {
+                        document.getElementById('nombreAuspiciante').value = '';
+                        logoInput.value = '';
+                        alert('✓ Auspiciante agregado');
+                    }).catch(err => alert('Error: ' + err.message));
+                };
+                reader.readAsDataURL(logoInput.files[0]);
+            } else {
+                db.ref('auspiciantes').push({ nombre, logo: '' }).then(() => {
+                    document.getElementById('nombreAuspiciante').value = '';
+                    alert('✓ Auspiciante agregado');
+                }).catch(err => alert('Error: ' + err.message));
+            }
+        }
+
+        function actualizarAuspiciantesList() {
+            const list = document.getElementById('auspiciantesList');
+            list.innerHTML = allAuspiciantes.map(ausp => `
+                <div class="list-item">
+                    <strong>${ausp.nombre}</strong>
+                    <button class="btn-small btn-danger" onclick="eliminarAuspiciante('${ausp.id}')">
+                        <i class="fas fa-trash"></i> Eliminar
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function eliminarAuspiciante(id) {
+            if (confirm('¿Eliminar auspiciante?')) {
+                db.ref('auspiciantes/' + id).remove().then(() => {
+                    alert('✓ Auspiciante eliminado');
+                }).catch(err => alert('Error: ' + err.message));
+            }
+        }
+
+        // ========== CAMBIAR TAB ==========
+        function cambiarTab(event, tabName) {
+            document.querySelectorAll('.admin-tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.admin-tab-btn').forEach(el => el.classList.remove('active'));
+            
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
         }
 
         // ========== MODAL INSCRIPCION ==========
@@ -1066,167 +1316,27 @@
                 presente: false
             };
 
-            db.ref('inscritos').push(inscrito, (error) => {
-                if (error) {
-                    alert('Error: ' + error.message);
-                } else {
-                    alert('¡Inscripción exitosa!');
-                    document.getElementById('inscripcionForm').reset();
-                    document.getElementById('imagePreview').innerHTML = '';
-                    uploadedImage = null;
-                    cerrarModalInscripcion();
-                }
-            });
-        }
-
-        // ========== ADMIN LOGIN ==========
-        function mostrarLoginAdmin() {
-            const pass = prompt('Contraseña de administrador:');
-            if (pass === 'usca2026') {
-                adminLoggedIn = true;
-                document.getElementById('adminPanel').classList.add('active');
-                cargarInfoAdmin();
-            } else if (pass !== null) {
-                alert('Contraseña incorrecta');
-            }
-        }
-
-        function cerrarAdmin() {
-            adminLoggedIn = false;
-            document.getElementById('adminPanel').classList.remove('active');
-        }
-
-        // ========== CARGAR INFO ADMIN ==========
-        function cargarInfoAdmin() {
-            document.getElementById('descEvento').value = eventInfo.descripcion;
-            document.getElementById('fechaEventoInput').value = eventInfo.fecha;
-            document.getElementById('horaInicioInput').value = eventInfo.horaInicio;
-            document.getElementById('horaFinInput').value = eventInfo.horaFin;
-
-            actualizarAgendaListAdmin();
-            actualizarAuspiciantesList();
-        }
-
-        // ========== GUARDAR INFO EVENTO ==========
-        function guardarEventoInfo() {
-            eventInfo.descripcion = document.getElementById('descEvento').value;
-            eventInfo.fecha = document.getElementById('fechaEventoInput').value;
-            eventInfo.horaInicio = document.getElementById('horaInicioInput').value;
-            eventInfo.horaFin = document.getElementById('horaFinInput').value;
-
-            db.ref('evento').set(eventInfo).then(() => {
-                alert('✓ Cambios guardados');
-                actualizarInfoEvento();
-            });
-        }
-
-        // ========== AGENDA ADMIN ==========
-        function agregarAgenda() {
-            const hora = document.getElementById('nuevaHora').value;
-            const tema = document.getElementById('nuevoTema').value;
-            const speaker = document.getElementById('nuevoSpeaker').value;
-            const procedencia = document.getElementById('nuevoProcedencia').value;
-
-            if (!hora || !tema) {
-                alert('Completa hora y tema');
-                return;
-            }
-
-            db.ref('agenda').push({ hora, tema, speaker, procedencia }).then(() => {
-                document.getElementById('nuevaHora').value = '';
-                document.getElementById('nuevoTema').value = '';
-                document.getElementById('nuevoSpeaker').value = '';
-                document.getElementById('nuevoProcedencia').value = '';
-                alert('✓ Actividad agregada');
-            });
-        }
-
-        function actualizarAgendaListAdmin() {
-            const list = document.getElementById('agendaListAdmin');
-            list.innerHTML = allAgenda.map(item => `
-                <div class="list-item">
-                    <strong>${item.hora} - ${item.tema}</strong>
-                    <div style="font-size: 0.85rem; color: #7f8c8d;">Dr: ${item.speaker || 'N/A'}</div>
-                    <button class="btn-small btn-danger" onclick="eliminarAgenda('${item.id}')">
-                        <i class="fas fa-trash"></i> Eliminar
-                    </button>
-                </div>
-            `).join('');
-        }
-
-        function eliminarAgenda(id) {
-            if (confirm('¿Eliminar esta actividad?')) {
-                db.ref('agenda/' + id).remove().then(() => {
-                    alert('✓ Actividad eliminada');
-                });
-            }
-        }
-
-        // ========== AUSPICIANTES ADMIN ==========
-        function agregarAuspiciante() {
-            const nombre = document.getElementById('nombreAuspiciante').value;
-            const logoInput = document.getElementById('logoAuspiciante');
-
-            if (!nombre) {
-                alert('Ingresa nombre del auspiciante');
-                return;
-            }
-
-            if (logoInput.files.length > 0) {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    db.ref('auspiciantes').push({ nombre, logo: e.target.result }).then(() => {
-                        document.getElementById('nombreAuspiciante').value = '';
-                        logoInput.value = '';
-                        alert('✓ Auspiciante agregado');
-                    });
-                };
-                reader.readAsDataURL(logoInput.files[0]);
-            } else {
-                db.ref('auspiciantes').push({ nombre, logo: '' }).then(() => {
-                    document.getElementById('nombreAuspiciante').value = '';
-                    alert('✓ Auspiciante agregado');
-                });
-            }
-        }
-
-        function actualizarAuspiciantesList() {
-            const list = document.getElementById('auspiciantesList');
-            list.innerHTML = allAuspiciantes.map(ausp => `
-                <div class="list-item">
-                    <strong>${ausp.nombre}</strong>
-                    <button class="btn-small btn-danger" onclick="eliminarAuspiciante('${ausp.id}')">
-                        <i class="fas fa-trash"></i> Eliminar
-                    </button>
-                </div>
-            `).join('');
-        }
-
-        function eliminarAuspiciante(id) {
-            if (confirm('¿Eliminar auspiciante?')) {
-                db.ref('auspiciantes/' + id).remove().then(() => {
-                    alert('✓ Auspiciante eliminado');
-                });
-            }
-        }
-
-        // ========== CAMBIAR TAB ==========
-        function cambiarTab(event, tabName) {
-            document.querySelectorAll('.admin-tab-content').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.admin-tab-btn').forEach(el => el.classList.remove('active'));
-            
-            document.getElementById(tabName).classList.add('active');
-            event.target.classList.add('active');
+            db.ref('inscritos').push(inscrito).then(() => {
+                alert('¡Inscripción exitosa!');
+                document.getElementById('inscripcionForm').reset();
+                document.getElementById('imagePreview').innerHTML = '';
+                uploadedImage = null;
+                cerrarModalInscripcion();
+            }).catch(err => alert('Error: ' + err.message));
         }
 
         // ========== INIT ==========
         document.addEventListener('DOMContentLoaded', cargarDatos);
 
-        // Cerrar modal al hacer click fuera
+        // Cerrar modales al hacer click fuera
         window.onclick = function(event) {
             const modal = document.getElementById('modalInscripcion');
+            const loginModal = document.getElementById('modalLoginAdmin');
             if (event.target == modal) {
                 cerrarModalInscripcion();
+            }
+            if (event.target == loginModal) {
+                cerrarLoginAdmin();
             }
         }
     </script>
